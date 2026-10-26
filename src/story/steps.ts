@@ -47,8 +47,8 @@ The vocabulary was built by *byte-pair encoding*: start from the 256 possible by
 A leading space is part of the token, so " Jordan" and "Jordan" are different tokens. Each token is now just an integer: its row number in the vocabulary.`,
     shapes: ['T = \\text{number of tokens}', 't_i \\in \\{0,\\dots,50256\\}'],
     cam: [
-      { p: 0, pos: [0, 3.2, 15], look: [0, 2.2, 0], fov: 34 },
-      { p: 1, pos: [0, 2.6, 14], look: [0, 1.6, 0], fov: 34 },
+      { p: 0, pos: [0, 3.4, 19], look: [0, 2.4, 0], fov: 34 },
+      { p: 1, pos: [0, 2.2, 18], look: [0, 1.4, 0], fov: 34 },
     ],
   },
   {
@@ -83,8 +83,10 @@ $$x^{0}_i = W_E[t_i] + W_P[i]$$
 The same word now looks slightly different at different positions. That is also why GPT-2 can't read more than 1,024 tokens: there are no rows beyond that.`,
     shapes: ['W_P \\in \\mathbb{R}^{1024\\times 768}', 'X^{0} \\in \\mathbb{R}^{T\\times 768}'],
     cam: [
-      { p: 0, pos: [2, 0.6, 17], look: [1, 0, 0], fov: 34 },
-      { p: 1, pos: [0, 0.4, 16.5], look: [0, 0, 0], fov: 34 },
+      { p: 0, pos: [0, 0.4, 16.5], look: [0, 0.2, 0], fov: 34 },
+      { p: 0.2, pos: [2.6, -0.6, 27], look: [2.6, -0.9, 0], fov: 34 },
+      { p: 0.6, pos: [2.2, -0.6, 26], look: [2.2, -0.9, 0], fov: 34 },
+      { p: 1, pos: [0, 0.4, 16.5], look: [0, 0.2, 0], fov: 34 },
     ],
   },
   {

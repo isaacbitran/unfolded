@@ -54,6 +54,13 @@ function textTexture(text: string) {
   return out;
 }
 
+/** Width in world units of a label of the given height (matches TextPlane's glyph extent). */
+export function measureText(text: string, height: number): number {
+  const c = document.createElement('canvas').getContext('2d')!;
+  c.font = FONT;
+  return (c.measureText(text).width / (PX * 1.4)) * height * 1.4;
+}
+
 export interface TextPlaneHandle {
   group: THREE.Group | null;
   setOpacity(a: number): void;
