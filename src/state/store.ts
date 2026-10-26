@@ -18,6 +18,9 @@ interface AppState {
   reducedMotion: boolean;
   /** explore focus */
   focus: { layer: number; head: number; token: number | null };
+  backendName: string;
+  lastRunMs: number;
+  setLastRunMs(ms: number): void;
   setMode(m: Mode): void;
   setTrace(t: SceneTrace): void;
   setEngine(e: EngineStatus): void;
@@ -35,9 +38,12 @@ export const useApp = create<AppState>((set) => ({
   sampling: { temperature: 1, topK: 40, topP: 0.9 },
   reducedMotion: !!prefersReduced,
   focus: { layer: 0, head: 0, token: null },
+  backendName: 'cpu',
+  lastRunMs: 0,
+  setLastRunMs: (lastRunMs) => set({ lastRunMs }),
   setMode: (mode) => set({ mode }),
   setTrace: (trace) => set({ trace }),
-  setEngine: (engine) => set({ engine }),
+  setEngine: (engine) => set((s) => ({ engine, backendName: engine.kind === 'ready' ? engine.backend : s.backendName })),
   setSampling: (p) => set((s) => ({ sampling: { ...s.sampling, ...p } })),
   setReducedMotion: (reducedMotion) => set({ reducedMotion }),
   setFocus: (f) => set((s) => ({ focus: { ...s.focus, ...f } })),

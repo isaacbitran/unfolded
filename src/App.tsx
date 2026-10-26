@@ -5,10 +5,10 @@ import { STEP_VH, useScrollStory } from './ui/useScrollStory';
 import { useApp } from './state/store';
 import { decodeSceneTrace } from './model/trace';
 import { STEPS } from './story/steps';
+import { PromptBar } from './ui/PromptBar';
 
 export default function App() {
   const mode = useApp((s) => s.mode);
-  const trace = useApp((s) => s.trace);
   useScrollStory(mode === 'walk');
   useEffect(() => {
     fetch('/demo/demo.trace.bin')
@@ -23,7 +23,11 @@ export default function App() {
           <span className="mark">Unfolded</span>
           <span className="sub">GPT-2, one operation at a time</span>
         </div>
-        {trace && <div className="prompt-chip">{trace.prompt}</div>}
+        <PromptBar />
+        <nav className="modes">
+          <button className={mode === 'walk' ? 'on' : ''} onClick={() => useApp.getState().setMode('walk')}>Walkthrough</button>
+          <button className={mode === 'explore' ? 'on' : ''} onClick={() => useApp.getState().setMode('explore')}>Explore</button>
+        </nav>
       </header>
       {mode === 'walk' && <div className="panel-shade" />}
       {mode === 'walk' && <StoryPanel />}

@@ -31,10 +31,26 @@ body { -webkit-font-smoothing: antialiased; }
 .brand { display: flex; align-items: baseline; gap: 12px; }
 .brand .mark { font-size: 20px; letter-spacing: 0.02em; }
 .brand .sub { font-size: 14px; color: var(--ink-3); font-style: italic; }
-.prompt-chip {
-  font-size: 15px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px;
-  padding: 6px 14px; background: rgba(0,0,0,0.4); backdrop-filter: blur(6px);
-}
+.promptbar { position: relative; flex: 0 1 560px; display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
+.promptbar form { display: flex; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 4px 4px 16px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); transition: border-color .2s; }
+.promptbar.editing form { border-color: rgba(244,238,226,0.35); }
+.promptbar input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--ink); font: 15px var(--serif); }
+.promptbar button, .modes button { font: 13px var(--serif); color: var(--ink); background: rgba(244,238,226,0.08); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; transition: background .2s; }
+.promptbar button:hover:not(:disabled), .modes button:hover { background: rgba(244,238,226,0.16); }
+.promptbar button:disabled { opacity: 0.4; cursor: default; }
+.status { font-size: 12px; color: var(--ink-3); padding-left: 16px; display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.status.err { color: var(--k); }
+.status.pulse { animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.45; } }
+.status .bar { width: 90px; height: 3px; background: rgba(244,238,226,0.12); border-radius: 2px; overflow: hidden; }
+.status .bar span { display: block; height: 100%; background: var(--ink); transition: width .2s; }
+.chips { position: absolute; top: 46px; left: 0; right: 0; display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: rgba(8,8,8,0.92); backdrop-filter: blur(8px); max-height: 40vh; overflow: auto; }
+.chip { display: inline-flex; flex-direction: column; align-items: center; border: 1px solid rgba(244,238,226,0.16); border-radius: 6px; padding: 3px 7px 2px; font-size: 14px; }
+.chip .t { white-space: pre; }
+.chip .id { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.chips .count { align-self: center; font-size: 11px; color: var(--ink-3); margin-left: 6px; }
+.modes { display: flex; gap: 4px; }
+.modes button.on { background: rgba(244,238,226,0.9); color: #000; }
 
 .panel-shade { position: fixed; inset: 0 auto 0 0; width: min(560px, 46vw); z-index: 20; pointer-events: none;
   background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.78) 55%, rgba(0,0,0,0) 100%); }
