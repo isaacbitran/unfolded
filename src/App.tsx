@@ -45,6 +45,7 @@ export default function App() {
       {mode === 'explore' && trace && <ExplorePanel />}
       <footer className="footer">
         <button onClick={() => useApp.getState().setReducedMotion(!useApp.getState().reducedMotion)}>{reduced ? 'Motion: reduced' : 'Motion: full'}</button>
+        <a href="https://github.com/isaacbitran/unfolded" target="_blank" rel="noreferrer">Source</a>
       </footer>
       {mode === 'walk' && <div className="scroll-space" style={{ height: `${(STEPS.length + 0.2) * STEP_VH * 100}vh` }} />}
     </>

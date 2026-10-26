@@ -8,3 +8,4 @@ playwright-report/
 *.local
 .vercel
 docs/*.mp4
+docs/LAUNCH.md

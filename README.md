@@ -2,6 +2,8 @@
 
 **GPT-2 small, running in your browser, filmed one operation at a time.**
 
+**[→ Open the live demo](https://unfolded-gpt2.vercel.app)** · works instantly on a precomputed prompt; type your own and it runs the real model on your GPU.
+
 ![Unfolded: tokens become columns of real numbers and flow through the 12-block tower](docs/hero.gif)
 
 Unfolded is an interactive 3D explainer of how a decoder-only transformer turns text into a
