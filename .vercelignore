@@ -1,0 +1,8 @@
+weights
+fixtures
+shots
+node_modules
+dist
+test-results
+*.png
+!public/**

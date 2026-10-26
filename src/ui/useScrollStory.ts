@@ -2,7 +2,14 @@ import { useEffect } from 'react';
 import { story } from '../state/store';
 import { STEPS } from '../story/steps';
 
-export const STEP_VH = 1.7; // viewport heights of scrolling per step
+export const STEP_VH = 1.15; // viewport heights of scrolling per step
+
+let anim = 0;
+let jump: (s: number) => void = () => undefined;
+/** Smoothly scroll the walkthrough to story position s (plays every animation on the way). */
+export const goToStory = (s: number) => jump(s);
+/** Go to the finished state of step k. */
+export const goToStep = (k: number) => jump(Math.max(0, Math.min(STEPS.length - 1, k)) + 0.84);
 
 /** Maps page scroll to story.target; arrow keys / PageUp/PageDown move a whole step. */
 export function useScrollStory(active: boolean) {
@@ -17,7 +24,6 @@ export function useScrollStory(active: boolean) {
     }
     const stepPx = () => window.innerHeight * STEP_VH;
     const onScroll = () => (story.target = Math.max(0, Math.min(STEPS.length - 0.001, window.scrollY / stepPx())));
-    let anim = 0;
     const goTo = (s: number) => {
       cancelAnimationFrame(anim);
       const from = window.scrollY;
@@ -32,15 +38,16 @@ export function useScrollStory(active: boolean) {
       };
       anim = requestAnimationFrame(tick);
     };
+    jump = goTo;
     const onKey = (e: KeyboardEvent) => {
       if ((e.target as HTMLElement)?.closest('input, textarea')) return;
-      const cur = Math.floor(story.target + 0.02);
+      const cur = Math.floor(story.target + 0.1);
       if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) {
         e.preventDefault();
-        goTo(Math.min(STEPS.length - 1, cur + 1) + 0.96);
+        goTo(Math.min(STEPS.length - 1, cur + 1) + 0.84);
       } else if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) {
         e.preventDefault();
-        goTo(Math.max(0, cur - 1) + 0.96);
+        goTo(Math.max(0, cur - 1) + 0.84);
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });

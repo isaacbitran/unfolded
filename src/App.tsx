@@ -6,6 +6,7 @@ import { useApp } from './state/store';
 import { decodeSceneTrace } from './model/trace';
 import { STEPS } from './story/steps';
 import { PromptBar } from './ui/PromptBar';
+import { StoryNav } from './ui/StoryNav';
 import { ExplorePanel } from './explore/ExplorePanel';
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <>
       <Stage />
+      {!trace && <div className="boot">loading GPT-2's numbers…</div>}
       <header className="topbar">
         <div className="brand">
           <span className="mark">Unfolded</span>
@@ -35,10 +37,10 @@ export default function App() {
       </header>
       {mode === 'walk' && <div className="panel-shade" />}
       {mode === 'walk' && <StoryPanel />}
+      {mode === 'walk' && <StoryNav />}
       {mode === 'explore' && trace && <ExplorePanel />}
       <footer className="footer">
         <button onClick={() => useApp.getState().setReducedMotion(!useApp.getState().reducedMotion)}>{reduced ? 'Motion: reduced' : 'Motion: full'}</button>
-        <a href="https://github.com/isaacbitran/unfolded" target="_blank" rel="noreferrer">Source</a>
       </footer>
       {mode === 'walk' && <div className="scroll-space" style={{ height: `${(STEPS.length + 0.2) * STEP_VH * 100}vh` }} />}
     </>
