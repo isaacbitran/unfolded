@@ -4,8 +4,12 @@ import * as THREE from 'three';
 import { CameraRig } from './CameraRig';
 import { World } from './World';
 import { PerfProbe } from './PerfProbe';
+import { ExploreScene } from '../explore/ExploreScene';
+import { useApp } from '../state/store';
 
 export function Stage() {
+  const mode = useApp((s) => s.mode);
+  const trace = useApp((s) => s.trace);
   return (
     <Canvas
       className="stage"
@@ -17,8 +21,8 @@ export function Stage() {
         gl.toneMapping = THREE.NoToneMapping;
       }}
     >
-      <CameraRig />
-      <World />
+      <CameraRig enabled={mode === 'walk'} />
+      {mode === 'walk' ? <World /> : trace && <ExploreScene />}
       <PerfProbe />
       <EffectComposer multisampling={4}>
         <Bloom mipmapBlur luminanceThreshold={0.92} luminanceSmoothing={0.15} intensity={0.85} radius={0.7} />

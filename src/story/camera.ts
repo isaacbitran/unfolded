@@ -5,6 +5,12 @@
 
 import { STEPS, type CamKey, type V3 } from './steps';
 
+/**
+ * A step's keys occupy the first 86% of its scroll span; the remaining 14% is the glide to the
+ * next step's first key, so step boundaries never coincide with a key of each side (no snaps).
+ */
+export const KEY_SPAN = 0.86;
+
 interface Knot {
   s: number;
   pos: V3;
@@ -18,7 +24,7 @@ export function buildKnots(steps = STEPS): Knot[] {
   steps.forEach((st, i) =>
     st.cam.forEach((k: CamKey) => {
       fov = k.fov ?? fov;
-      knots.push({ s: i + k.p, pos: k.pos, look: k.look, fov });
+      knots.push({ s: i + k.p * KEY_SPAN, pos: k.pos, look: k.look, fov });
     }),
   );
   return knots.sort((a, b) => a.s - b.s);

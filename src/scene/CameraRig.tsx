@@ -12,7 +12,8 @@ export function CameraRig({ enabled = true }: { enabled?: boolean }) {
   // Lens shift: in the walkthrough the text column covers the left of the screen, so the
   // optical center moves right by half the column's width (labels follow: they use the same matrix).
   useEffect(() => {
-    const shift = mode === 'walk' && size.width > 900 ? Math.min(420, size.width * 0.34 + 28) / 2 : 0;
+    const wide = size.width > 900;
+    const shift = !wide ? 0 : mode === 'walk' ? Math.min(420, size.width * 0.34 + 28) / 2 : -175;
     if (shift) camera.setViewOffset(size.width, size.height, -shift, 0, size.width, size.height);
     else camera.clearViewOffset();
     camera.updateProjectionMatrix();

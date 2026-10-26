@@ -6,11 +6,14 @@ import { useApp } from './state/store';
 import { decodeSceneTrace } from './model/trace';
 import { STEPS } from './story/steps';
 import { PromptBar } from './ui/PromptBar';
+import { ExplorePanel } from './explore/ExplorePanel';
 
 export default function App() {
   const mode = useApp((s) => s.mode);
+  const trace = useApp((s) => s.trace);
   useScrollStory(mode === 'walk');
   useEffect(() => {
+    if (new URLSearchParams(location.search).get('mode') === 'explore') useApp.getState().setMode('explore');
     fetch('/demo/demo.trace.bin')
       .then((r) => r.arrayBuffer())
       .then((b) => useApp.getState().setTrace(decodeSceneTrace(b)));
@@ -31,6 +34,7 @@ export default function App() {
       </header>
       {mode === 'walk' && <div className="panel-shade" />}
       {mode === 'walk' && <StoryPanel />}
+      {mode === 'explore' && trace && <ExplorePanel />}
       {mode === 'walk' && <div className="scroll-space" style={{ height: `${(STEPS.length + 0.2) * STEP_VH * 100}vh` }} />}
     </>
   );
