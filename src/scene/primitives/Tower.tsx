@@ -59,7 +59,8 @@ varying float vZ;
 varying float vGlow;
 void main() {
   if (vZ < uReach) discard;
-  float pulse = uPulseK * exp(-pow((vZ - uPulse) / 2.2, 2.0));
+  float d = (vZ - uPulse) / 2.2;
+  float pulse = uPulseK * exp(-d * d);
   float a = uOpacity * (0.18 + 0.55 * vGlow + pulse);
   gl_FragColor = vec4(uColor * a * (1.0 + pulse * 2.0), a);
 }`;

@@ -11,13 +11,14 @@ import { TOWER, Tower, type TowerHandle } from '../primitives/Tower';
 import { TextPlane, visibleToken, type TextPlaneHandle } from '../primitives/TextPlane';
 import { C, colX, lerp, seg } from '../theme';
 import { useStep } from '../useStep';
+import { walkthroughSample } from './S14Sampling';
 
 const SQ = 0.36;
 
 export function S15Autoregress({ index, trace }: { index: number; trace: SceneTrace }) {
   const T = trace.T;
   const S = T + 1;
-  const next = trace.positions[T - 1].top[0];
+  const next = useMemo(() => walkthroughSample(trace), [trace]);
   const tower = useRef<TowerHandle>(null);
   const word = useRef<TextPlaneHandle>(null);
   const oldWords = useRef<(TextPlaneHandle | null)[]>([]);

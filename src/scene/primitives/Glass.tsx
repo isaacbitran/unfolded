@@ -26,7 +26,7 @@ varying vec3 vN;
 varying vec3 vView;
 varying vec3 vLocal;
 void main() {
-  float f = pow(1.0 - abs(dot(normalize(vN), normalize(vView))), 2.5);
+  float f = pow(max(0.0, 1.0 - abs(dot(normalize(vN), normalize(vView)))), 2.5);
   // subtle vertical sheen so large faces aren't flat
   float sheen = 0.5 + 0.5 * smoothstep(-0.5, 0.5, vLocal.y / uSize.y);
   float band = uBand.z * (1.0 - smoothstep(uBand.y * 0.6, uBand.y, abs(vLocal.y - uBand.x)));

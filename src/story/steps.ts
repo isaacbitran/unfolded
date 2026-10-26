@@ -102,8 +102,9 @@ $$x^{\\ell+1} = x^{\\ell} + \\text{Attn}(\\cdot) + \\text{MLP}(\\cdot)$$
 So the stream is a shared 768-dimensional workspace per token. Attention writes in information gathered from *other* tokens; the MLP writes in what it computes from *this* token. The brightness of each rail tracks the real size $\\lVert x \\rVert$ of the stream as it grows layer by layer.`,
     shapes: ['x^{\\ell} \\in \\mathbb{R}^{T\\times 768}\\ \\text{at every depth}'],
     cam: [
-      { p: 0, pos: [14, 9, 14], look: [0, -1, -30], fov: 36 },
-      { p: 1, pos: [16, 12, 6], look: [0, -2, -70], fov: 38 },
+      { p: 0, pos: [0, 0.4, 16.5], look: [0, 0.2, 0], fov: 34 },
+      { p: 0.35, pos: [15, 10, 19], look: [0, 0, -24], fov: 36 },
+      { p: 1, pos: [19, 12, 6], look: [0, -2, -72], fov: 38 },
     ],
   },
   {
@@ -119,8 +120,9 @@ Then two learned vectors give back control: a gain $\\gamma$ and a bias $\\beta$
 $$\\text{LN}(x)=\\gamma\\odot\\frac{x-\\mu}{\\sqrt{\\sigma^2+\\epsilon}}+\\beta$$`,
     shapes: ['x\\in\\mathbb{R}^{768}\\to\\mathbb{R}^{768}', '\\gamma,\\beta\\in\\mathbb{R}^{768}'],
     cam: [
-      { p: 0, pos: [0, 0.4, 13], look: [0, 0, 0], fov: 34 },
-      { p: 1, pos: [0, 0.2, 12], look: [0, 0, 0], fov: 34 },
+      { p: 0, pos: [0, 0.4, 16], look: [0, 0, 0], fov: 34 },
+      { p: 0.14, pos: [0.6, 0.2, 18.6], look: [0.6, -0.25, 0], fov: 34 },
+      { p: 1, pos: [0.6, 0.2, 18.6], look: [0.6, -0.25, 0], fov: 34 },
     ],
   },
   {
@@ -138,8 +140,9 @@ Each is a real matrix–vector product: every output entry is the dot product of
 The 768 entries are then cut into **12 heads of 64**. Each head runs attention independently with its own slice of $Q$, $K$ and $V$.`,
     shapes: ['W_Q,W_K,W_V\\in\\mathbb{R}^{768\\times768}', 'Q,K,V\\in\\mathbb{R}^{T\\times768}\\to\\mathbb{R}^{12\\times T\\times 64}'],
     cam: [
-      { p: 0, pos: [0, 1.5, 22], look: [0, 0.5, 0], fov: 34 },
-      { p: 1, pos: [0, 1, 20], look: [0, 0, 0], fov: 34 },
+      { p: 0, pos: [0.6, 0.2, 18.6], look: [0.6, -0.25, 0], fov: 34 },
+      { p: 0.14, pos: [0.4, 0.5, 23], look: [0.4, 0.2, 0], fov: 34 },
+      { p: 1, pos: [0.4, 0.5, 23], look: [0.4, 0.2, 0], fov: 34 },
     ],
   },
   {
@@ -155,8 +158,10 @@ Geometrically $q\\cdot k = \\lVert q\\rVert\\,\\lVert k\\rVert\\cos\\theta$. The
 Attention deliberately uses the *unnormalized* dot product. A head can make a query long to be decisive or short to spread its attention, and a key can be long to stand out — normalizing would throw that signal away.`,
     shapes: ['q\\in\\mathbb{R}^{64}', 'K_h\\in\\mathbb{R}^{T\\times64}', 'S_h=Q_hK_h^{\\top}\\in\\mathbb{R}^{T\\times T}'],
     cam: [
-      { p: 0, pos: [0, 0.5, 16], look: [0, 0, 0], fov: 34 },
-      { p: 1, pos: [0, 0.5, 15], look: [0, 0, 0], fov: 34 },
+      { p: 0, pos: [0.7, 0.5, 18.8], look: [0.7, 0.2, 0], fov: 34 },
+      { p: 0.66, pos: [0.7, 0.5, 18.8], look: [0.7, 0.2, 0], fov: 34 },
+      { p: 0.8, pos: [0, 0.6, 21], look: [-0.3, 0.6, 0], fov: 34 },
+      { p: 1, pos: [0, 0.6, 21], look: [-0.3, 0.6, 0], fov: 34 },
     ],
   },
   {
@@ -172,8 +177,8 @@ Attention deliberately uses the *unnormalized* dot product. A head can make a qu
 $$A=\\text{softmax}\\Big(\\tfrac{QK^{\\top}}{\\sqrt{64}}+M\\Big)$$`,
     shapes: ['A_h\\in\\mathbb{R}^{T\\times T}', '\\textstyle\\sum_j A_{ij}=1'],
     cam: [
-      { p: 0, pos: [0, 0.3, 14], look: [0, 0, 0], fov: 34 },
-      { p: 1, pos: [0, 0.3, 13.5], look: [0, 0, 0], fov: 34 },
+      { p: 0.08, pos: [0, 0.6, 21], look: [-0.3, 0.6, 0], fov: 34 },
+      { p: 0.97, pos: [1.6, 1.0, 20.2], look: [-0.3, 0.4, 0], fov: 34 },
     ],
   },
   {
@@ -187,8 +192,9 @@ $$z_i=\\sum_{j\\le i}A_{ij}\\,v_j$$
 If a head puts 0.8 of its attention on " Jordan", then 80% of what this head delivers is " Jordan"'s value vector. This is the **only** place in the whole model where information moves between tokens.`,
     shapes: ['A_{i,:}\\in\\mathbb{R}^{T}', 'V_h\\in\\mathbb{R}^{T\\times64}', 'z_i\\in\\mathbb{R}^{64}'],
     cam: [
-      { p: 0, pos: [0, 1, 17], look: [0, 0, 0], fov: 34 },
-      { p: 1, pos: [0, 1, 16], look: [0, 0, 0], fov: 34 },
+      { p: 0.08, pos: [1.2, 0.4, 21], look: [1.3, -0.3, 0], fov: 34 },
+      { p: 0.5, pos: [2.2, 0, 20.8], look: [2.0, -0.3, 0], fov: 34 },
+      { p: 0.97, pos: [2.4, 0, 20.4], look: [2.0, -0.3, 0], fov: 34 },
     ],
   },
   {
@@ -202,7 +208,10 @@ The 12 outputs (64 numbers each) are **concatenated** back into 768 numbers and 
 $$\\text{attn}(X) = [Z^1;\\dots;Z^{12}]\\,W_O + b_O$$`,
     shapes: ['12\\times(T\\times64)\\to T\\times768', 'W_O\\in\\mathbb{R}^{768\\times768}'],
     cam: [
-      { p: 0, pos: [0, 2, 26], look: [0, 1, 0], fov: 34 },
+      { p: 0.08, pos: [0, 1.6, 21.5], look: [0, 1.3, 0], fov: 34 },
+      { p: 0.3, pos: [0, 1.5, 20.6], look: [0, 1.3, 0], fov: 34 },
+      { p: 0.5, pos: [5.0, -0.3, 30.5], look: [5.0, -1.2, 0], fov: 34 },
+      { p: 0.76, pos: [4.9, -0.5, 30], look: [4.9, -1.3, 0], fov: 34 },
       { p: 1, pos: [0, 1, 22], look: [0, 0, 0], fov: 34 },
     ],
   },
@@ -219,8 +228,12 @@ $$\\text{MLP}(a)=\\text{GELU}(a\\,W_{\\uparrow}+b_{\\uparrow})\\,W_{\\downarrow}
 GELU lets positive inputs through and squashes negative ones toward zero, so each neuron is roughly *on* or *off* for this token. Two thirds of every layer's parameters live here, and much of what the model "knows" (Michael Jordan → basketball) is stored in these weights.`,
     shapes: ['768\\to3072\\to768', 'W_{\\uparrow}\\in\\mathbb{R}^{768\\times3072}', 'W_{\\downarrow}\\in\\mathbb{R}^{3072\\times768}'],
     cam: [
-      { p: 0, pos: [0, 0.5, 18], look: [0, 0, 0], fov: 34 },
-      { p: 1, pos: [0, 0.5, 20], look: [0, 0, 0], fov: 34 },
+      { p: 0, pos: [0, 1, 22], look: [0, 0, 0], fov: 34 },
+      { p: 0.2, pos: [-1.4, 1.4, 21], look: [-1.4, 0.9, 0], fov: 34 },
+      { p: 0.42, pos: [3, 0.9, 21.5], look: [3, 0.45, 0], fov: 34 },
+      { p: 0.56, pos: [3.2, 0.9, 21.5], look: [3.2, 0.45, 0], fov: 34 },
+      { p: 0.74, pos: [5.0, 0.2, 21], look: [5.0, -0.2, 0], fov: 34 },
+      { p: 1, pos: [6.6, 0.2, 19.5], look: [6.6, -0.4, 0], fov: 34 },
     ],
   },
   {
@@ -232,8 +245,9 @@ GELU lets positive inputs through and squashes negative ones toward zero, so eac
 GPT-2 small stacks **12 identical blocks**, each with its own weights (7.1 million parameters per block). The stream flows through all of them, and every block adds a little more: early layers handle syntax and nearby words, later ones handle meaning and the prediction itself.`,
     shapes: ['12\\times(\\text{Attn}+\\text{MLP})', '85\\text{M parameters in blocks}'],
     cam: [
-      { p: 0, pos: [18, 10, 14], look: [0, 0, -40], fov: 36 },
-      { p: 1, pos: [42, 22, -60], look: [0, -2, -95], fov: 40 },
+      { p: 0, pos: [19, 12, 6], look: [0, -2, -72], fov: 38 },
+      { p: 0.6, pos: [46, 26, -40], look: [0, -2, -95], fov: 38 },
+      { p: 1, pos: [58, 30, -70], look: [0, -2, -100], fov: 38 },
     ],
   },
   {
@@ -247,8 +261,12 @@ $$\\ell = \\text{LN}_f(x^{12}_T)\\,W_E^{\\top}$$
 That is 50,257 dot products, one per vocabulary entry. Each result, a **logit**, scores how well that token fits next.`,
     shapes: ['x^{12}_T\\in\\mathbb{R}^{768}', 'W_E^{\\top}\\in\\mathbb{R}^{768\\times50257}', '\\ell\\in\\mathbb{R}^{50257}'],
     cam: [
-      { p: 0, pos: [10, 3, -170], look: [0, 0, -186], fov: 36 },
-      { p: 1, pos: [4, 1, -175], look: [0, 0, -190], fov: 34 },
+      { p: 0, pos: [16, 7, -166], look: [-4, 0, -206], fov: 36 },
+      { p: 0.16, pos: [-5.2, 1.0, -186], look: [-5.2, 0.4, -206], fov: 34 },
+      { p: 0.36, pos: [-4.4, 0.8, -186], look: [-4.4, 0.2, -206], fov: 34 },
+      { p: 0.56, pos: [1.2, 0.6, -185.5], look: [1.2, 0, -206], fov: 34 },
+      { p: 0.86, pos: [2.0, 0.6, -185.5], look: [2.0, -0.1, -206], fov: 34 },
+      { p: 1, pos: [2.0, 0.6, -185.5], look: [2.0, -0.1, -206], fov: 34 },
     ],
   },
   {
@@ -262,8 +280,9 @@ $$p_v=\\frac{e^{\\ell_v/\\tau}}{\\sum_u e^{\\ell_u/\\tau}}$$
 **Top-k** keeps only the $k$ most likely tokens. **Top-p** keeps the smallest set whose probabilities add up to $p$. Whatever survives is renormalized, and one token is drawn at random.`,
     shapes: ['p\\in\\mathbb{R}^{50257},\\ \\textstyle\\sum p=1'],
     cam: [
-      { p: 0, pos: [3, 0.5, -178], look: [3, 0, -192], fov: 34 },
-      { p: 1, pos: [3, 0.5, -178], look: [3, 0, -192], fov: 34 },
+      { p: 0, pos: [2.0, 0.6, -185.5], look: [2.0, -0.1, -206], fov: 34 },
+      { p: 0.16, pos: [3.3, 0.3, -185.5], look: [3.3, -0.3, -206], fov: 34 },
+      { p: 1, pos: [3.3, 0.3, -185.5], look: [3.3, -0.3, -206], fov: 34 },
     ],
   },
   {
@@ -275,8 +294,10 @@ $$p_v=\\frac{e^{\\ell_v/\\tau}}{\\sum_u e^{\\ell_u/\\tau}}$$
 Because of the causal mask, earlier tokens can never be affected by later ones, so their keys and values in every layer never change. GPT-2 **caches** them (the KV cache) and only computes the new token's column. Each new step costs one column instead of the whole sequence.`,
     shapes: ['\\text{new: }1\\times768', '\\text{cached: }12\\times2\\times T\\times768'],
     cam: [
-      { p: 0, pos: [14, 8, 16], look: [2, 0, -20], fov: 36 },
-      { p: 1, pos: [16, 9, 10], look: [2, 0, -40], fov: 36 },
+      { p: 0, pos: [12, 6, -150], look: [0, 1.5, -182], fov: 36 },
+      { p: 0.4, pos: [12, 7, 17], look: [1, 0.5, -16], fov: 36 },
+      { p: 0.8, pos: [17, 10, 12], look: [1, 0, -60], fov: 38 },
+      { p: 1, pos: [30, 16, -95], look: [0, 0, -165], fov: 38 },
     ],
   },
   {
@@ -292,8 +313,10 @@ The causal mask is what makes this honest: position $i$ cannot see token $i+1$, 
 At inference only the last position's prediction is used. The earlier positions still matter: every later token reads their keys and values.`,
     shapes: ['\\ell\\in\\mathbb{R}^{T\\times50257}', '\\mathcal{L}\\in\\mathbb{R}'],
     cam: [
-      { p: 0, pos: [0, 4, -168], look: [0, 0, -186], fov: 38 },
-      { p: 1, pos: [0, 5, -165], look: [0, 0, -186], fov: 40 },
+      { p: 0, pos: [16, 9, -170], look: [0, 0, -206], fov: 36 },
+      { p: 0.14, pos: [1.1, 0.7, -185], look: [1.1, 0, -206], fov: 34 },
+      { p: 0.8, pos: [1.1, 0.7, -185], look: [1.1, 0, -206], fov: 34 },
+      { p: 1, pos: [1.3, 0.7, -185.5], look: [1.3, 0, -206], fov: 34 },
     ],
   },
 ];
