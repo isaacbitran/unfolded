@@ -12,7 +12,7 @@ rmSync(dir, { recursive: true, force: true });
 mkdirSync(dir, { recursive: true });
 const b = await chromium.launch({ args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] });
 const p = await b.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
-await p.goto(`${url}/?s=${from}&clean`);
+await p.goto(`${url}/?s=${from}${args.includes("--clean") ? "&clean" : ""}`);
 await p.waitForFunction(() => (window.__perf?.frames ?? 0) > 40);
 let i = 0;
 for (let s = from; s <= to + 1e-9; s += step) {
