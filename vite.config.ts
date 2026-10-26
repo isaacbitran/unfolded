@@ -33,4 +33,5 @@ function localWeights(): Plugin {
 export default defineConfig({
   plugins: [react(), localWeights()],
   worker: { format: 'es' },
+  build: { chunkSizeWarningLimit: 2000 },
 });

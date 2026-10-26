@@ -113,3 +113,27 @@ body { -webkit-font-smoothing: antialiased; }
 .gen button { flex: 1; font: 13px var(--serif); color: var(--ink); background: rgba(244,238,226,0.08); border: 1px solid var(--line); border-radius: 8px; padding: 7px; cursor: pointer; }
 .gen button:hover:not(:disabled) { background: rgba(244,238,226,0.16); }
 .gen button:disabled { opacity: 0.4; }
+
+.footer { position: fixed; right: 20px; bottom: 16px; z-index: 35; display: flex; gap: 10px; align-items: center; font-size: 12px; }
+.footer button, .footer a { font: 12px var(--serif); color: var(--ink-3); background: none; border: 0; cursor: pointer; text-decoration: none; padding: 4px; }
+.footer button:hover, .footer a:hover { color: var(--ink); }
+body:has(.explore) .footer { display: none; }
+
+/* ---------- narrow screens: story becomes a bottom sheet over the scene ---------- */
+@media (max-width: 760px) {
+  .topbar { padding: 12px 14px; flex-wrap: wrap; gap: 8px; }
+  .brand .sub { display: none; }
+  .promptbar { order: 3; flex: 1 1 100%; }
+  .panel-shade { inset: auto 0 0 0; width: 100%; height: 52vh; background: linear-gradient(0deg, rgba(0,0,0,0.95) 70%, rgba(0,0,0,0)); }
+  .panel { left: 16px; right: 16px; top: auto; bottom: 14px; width: auto; height: 44vh; }
+  .card { inset: auto 0 0 0; max-height: 44vh; overflow-y: auto; pointer-events: auto; }
+  .card h2 { font-size: 23px; }
+  .card .question { font-size: 15px; margin-bottom: 10px; }
+  .prose { font-size: 14.5px; }
+  .explore { left: 12px; right: 12px; width: auto; top: auto; height: 46vh; }
+  .footer { display: none; }
+  .modes button { padding: 5px 10px; font-size: 12px; }
+  .status { display: none; }
+}
+
+body.clean .topbar, body.clean .panel, body.clean .panel-shade, body.clean .footer, body.clean .explore { display: none !important; }

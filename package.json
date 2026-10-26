@@ -6,8 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "demo": "tsx scripts/build-demo.ts",
+    "fixtures": "python3 scripts/export_fixtures.py",
+    "weights": "python3 scripts/download_weights.py",
+    "shots": "node scripts/shots.mjs",
+    "e2e": "node scripts/e2e-engine.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -35,5 +41,7 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
-  }
+  },
+  "description": "GPT-2 small, running in your browser, filmed one operation at a time.",
+  "license": "MIT"
 }

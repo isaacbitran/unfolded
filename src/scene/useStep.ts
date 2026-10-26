@@ -1,6 +1,6 @@
 import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
-import { story } from '../state/store';
+import { story, useApp } from '../state/store';
 import { clamp01 } from './theme';
 
 /** Crossfade envelope for step k at story position s: in over [k−0.1, k+0.02], out over [k+0.98, k+1.1]. */
@@ -20,6 +20,8 @@ export function useStep(k: number, cb: (p: number, vis: number, s: number) => vo
   useFrame(() => {
     const s = story.s;
     const vis = stepVisibility(k, s);
-    ref.current(clamp01(s - k), vis, s);
+    // reduced motion: each step shows its finished state; steps only crossfade
+    const p = useApp.getState().reducedMotion ? 1 : clamp01(s - k);
+    ref.current(p, vis, s);
   });
 }

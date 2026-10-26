@@ -11,6 +11,7 @@ import { ExplorePanel } from './explore/ExplorePanel';
 export default function App() {
   const mode = useApp((s) => s.mode);
   const trace = useApp((s) => s.trace);
+  const reduced = useApp((s) => s.reducedMotion);
   useScrollStory(mode === 'walk');
   useEffect(() => {
     if (new URLSearchParams(location.search).get('mode') === 'explore') useApp.getState().setMode('explore');
@@ -35,6 +36,10 @@ export default function App() {
       {mode === 'walk' && <div className="panel-shade" />}
       {mode === 'walk' && <StoryPanel />}
       {mode === 'explore' && trace && <ExplorePanel />}
+      <footer className="footer">
+        <button onClick={() => useApp.getState().setReducedMotion(!useApp.getState().reducedMotion)}>{reduced ? 'Motion: reduced' : 'Motion: full'}</button>
+        <a href="https://github.com/isaacbitran/unfolded" target="_blank" rel="noreferrer">Source</a>
+      </footer>
       {mode === 'walk' && <div className="scroll-space" style={{ height: `${(STEPS.length + 0.2) * STEP_VH * 100}vh` }} />}
     </>
   );

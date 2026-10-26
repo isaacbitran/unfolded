@@ -12,9 +12,11 @@ export function CameraRig({ enabled = true }: { enabled?: boolean }) {
   // Lens shift: in the walkthrough the text column covers the left of the screen, so the
   // optical center moves right by half the column's width (labels follow: they use the same matrix).
   useEffect(() => {
-    const wide = size.width > 900;
+    const wide = size.width > 900 && !document.body.classList.contains('clean');
+    // on narrow screens the story sheet covers the bottom: shift the optical center up instead
     const shift = !wide ? 0 : mode === 'walk' ? Math.min(420, size.width * 0.34 + 28) / 2 : -175;
-    if (shift) camera.setViewOffset(size.width, size.height, -shift, 0, size.width, size.height);
+    const up = size.width <= 760 && mode === 'walk' ? size.height * 0.2 : 0;
+    if (shift || up) camera.setViewOffset(size.width, size.height, -shift, up, size.width, size.height);
     else camera.clearViewOffset();
     camera.updateProjectionMatrix();
   }, [camera, size, mode]);
@@ -44,8 +46,11 @@ export function CameraRig({ enabled = true }: { enabled?: boolean }) {
     camera.position.set(pose.pos[0] + pointer.current.x * 0.5, pose.pos[1] + pointer.current.y * 0.3, pose.pos[2]);
     look.current.set(pose.look[0], pose.look[1], pose.look[2]);
     camera.lookAt(look.current);
-    if (Math.abs(camera.fov - pose.fov) > 1e-3) {
-      camera.fov = pose.fov;
+    // portrait screens: widen the vertical fov so the horizontal coverage matches a 1.4:1 frame
+    const aspect = size.width / size.height;
+    const fov = aspect >= 1.4 ? pose.fov : (2 * Math.atan(Math.tan((pose.fov * Math.PI) / 360) * (1.4 / aspect)) * 180) / Math.PI;
+    if (Math.abs(camera.fov - fov) > 1e-3) {
+      camera.fov = fov;
       camera.updateProjectionMatrix();
     }
   });

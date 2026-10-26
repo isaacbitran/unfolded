@@ -49,7 +49,7 @@ export const Label = forwardRef<HTMLDivElement | null, LabelProps>(function Labe
   }, [el]);
   useEffect(() => {
     el.className = `label3d ${className ?? ''}`;
-    el.style.fontSize = `${size}px`;
+    el.style.fontSize = `${size * (window.innerWidth < 760 ? 0.62 : 1)}px`;
     el.style.color = color;
     if (tex) el.innerHTML = katex.renderToString(tex, { throwOnError: false, output: 'html' });
     else el.textContent = text ?? '';
