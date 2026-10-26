@@ -163,3 +163,18 @@ body.clean .topbar, body.clean .panel, body.clean .panel-shade, body.clean .foot
 }
 
 .boot { position: fixed; inset: 0; display: grid; place-items: center; z-index: 5; color: var(--ink-3); font-style: italic; font-size: 15px; animation: pulse 1.2s ease-in-out infinite; }
+
+/* ---------- film mode ---------- */
+body.video .scroll-hint, body.video .rail, body.video .stepnav, body.video .scroll-space { display: none !important; }
+.film { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+.film-end { background: radial-gradient(ellipse at center, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.75)) !important; }
+.film-title, .film-end { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: radial-gradient(ellipse at center, rgba(0,0,0,0.55), rgba(0,0,0,0.0) 70%); }
+.film .name { font-size: 76px; letter-spacing: 0.01em; font-weight: 300; }
+.film .tag { font-size: 25px; font-style: italic; color: #cfcac0; }
+.film .url { margin-top: 18px; font-size: 22px; letter-spacing: 0.04em; color: var(--ink); border: 1px solid rgba(244,238,226,0.35); border-radius: 999px; padding: 8px 22px; }
+.film::before { content: ''; position: absolute; left: 0; bottom: 0; width: 900px; height: 340px; background: radial-gradient(ellipse at 0% 100%, rgba(0,0,0,0.88), rgba(0,0,0,0.55) 45%, rgba(0,0,0,0) 72%); }
+.film-cap { position: absolute; left: 56px; bottom: 50px; max-width: 640px; }
+.film-cap .n { font-size: 15px; letter-spacing: 0.2em; color: var(--ink-3); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.film-cap .t { font-size: 38px; font-weight: 400; line-height: 1.1; }
+.film-cap .q { font-size: 19px; font-style: italic; color: #bdb8ae; margin-top: 8px; }
+.film-cap .sh { font-size: 17px; color: var(--ink-2); margin-top: 12px; }

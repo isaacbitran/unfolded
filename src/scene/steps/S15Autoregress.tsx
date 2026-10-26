@@ -51,7 +51,9 @@ export function S15Autoregress({ index, trace }: { index: number; trace: SceneTr
   const green = useMemo(() => new THREE.Color(C.value), []);
   const tmp = useMemo(() => new THREE.Color(), []);
 
-  useStep(index, (p, vis) => {
+  useStep(index, (p, v) => {
+    // sharper fade-in: the tower would otherwise fill the frame while step 14 is still on screen
+    const vis = v * v * (3 - 2 * v) * (v > 0.5 ? 1 : v * 2);
     tower.current?.setOpacity(vis * 0.7);
     tower.current?.setReach(TOWER.headZ);
     tower.current?.setBlocksOpacity(vis * 0.55);

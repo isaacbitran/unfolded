@@ -6,7 +6,9 @@ import App from './App';
 import { loadAtlas } from './scene/glyphs/atlas';
 
 // ?clean hides all UI (for recordings)
-if (new URLSearchParams(location.search).has('clean')) document.body.classList.add('clean');
+const q = new URLSearchParams(location.search);
+if (q.has('clean') || q.has('video')) document.body.classList.add('clean');
+if (q.has('video')) document.body.classList.add('video');
 
 // Fonts and the glyph atlas are ready before the first frame, so nothing re-lays out.
 loadAtlas().finally(() =>

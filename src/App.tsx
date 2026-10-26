@@ -7,13 +7,16 @@ import { decodeSceneTrace } from './model/trace';
 import { STEPS } from './story/steps';
 import { PromptBar } from './ui/PromptBar';
 import { StoryNav } from './ui/StoryNav';
+import { VideoOverlay } from './video/VideoOverlay';
+
+const FILM = new URLSearchParams(location.search).has('video');
 import { ExplorePanel } from './explore/ExplorePanel';
 
 export default function App() {
   const mode = useApp((s) => s.mode);
   const trace = useApp((s) => s.trace);
   const reduced = useApp((s) => s.reducedMotion);
-  useScrollStory(mode === 'walk');
+  useScrollStory(mode === 'walk' && !FILM);
   useEffect(() => {
     if (new URLSearchParams(location.search).get('mode') === 'explore') useApp.getState().setMode('explore');
     fetch('/demo/demo.trace.bin')
@@ -23,6 +26,7 @@ export default function App() {
   return (
     <>
       <Stage />
+      {FILM && trace && <VideoOverlay />}
       {!trace && <div className="boot">loading GPT-2's numbers…</div>}
       <header className="topbar">
         <div className="brand">
